@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Document</title>
+</head>
+<body>
+  
+  <div>
+  <input id="numUser" type = 'number'  size = '50'  >
+  <input class="btn" type="button" value="Добавить" type='reset'>
+  </div>
+  <br>
+  <div>
+    <input id="numUserDel" type = 'number'  size = '50' >
+    <input class="btnDel" type="button" value="Удалить">
+
+  </div>
+ 
+  <div style="padding: 30px 0"; >
+    <input  type="button" value="Сортировка по" id="btnSort" > <br>
+
+    <label> <input type="radio" name ="check" value="asc">asc</label>  <br>
+
+    <label><input type="radio" name ="check" value="dasc">dasc</label> <br>
+
+     <label> <input type="radio" name ="check" value="off">off </label> <br>
+  </div>
+
+  <div>
+    <input class="clear" type="button" value="очистить массив">
+  </div>    
+    
+  <div>
+    <p id="p2" ></p>
+  </div> 
+  
+  
+  <div>
+
+  </div>
+
+
+<script>
+
+"use strict" // используем строгий режим что бы сработала функция clear()
+
+
+
+let arr = [];
+
+ 
+	
+	let input = document.getElementById('numUser'); //получаем доступы к инпуту и кнопке
+	let btn = document.querySelector('.btn');
+	
+	btn.addEventListener('click', function(){ // добавляем слушатель событий на кнопку по событию click
+		if(input.value == '') { 
+			alert('Введите число.'); // если инпут пустой выскочит alert
+			return;
+		}
+	
+		let digit = Number(input.value);
+		
+		if(Number.isInteger(digit)) {
+			arr.push(digit); // если число целое то добавляем его в конец массива, в противном случае выскочит alert с предупреждением
+		}
+		
+		else {
+			alert('Введите целое число');
+		}
+		document.getElementById("p2").innerHTML = arr; //выводим массив в строку через запятую
+		console.log(arr);
+    clear() // 
+    
+		
+	});
+
+  function clear() { //фунция для очистки инпута после нажатия кнопки для добавления массива
+            document.getElementById('numUser').value = '';
+            document.getElementById('numUserDel').value = '';
+        }
+
+
+  let inputDel = document.getElementById('numUserDel');
+	let btnDel = document.querySelector('.btnDel');
+	
+  btnDel.addEventListener('click', function(){
+		if(inputDel.value == '') {
+			alert('Введите число.');
+			return;
+		}
+
+    let digitDel = Number(inputDel.value);
+		
+		if(Number.isInteger(digitDel)) {
+		 arr = 	arr.filter((n)=>{return n!==digitDel });  // удаляем из массива числа  рывные введенному в инпут 
+		}
+		
+		else {
+			alert('Введите целое число');
+		}
+
+    console.log(arr)
+    document.getElementById("p2").innerHTML = arr;
+    clear()
+	
+		
+		
+	});
+
+
+  let clearArr = document.querySelector('.clear');
+
+  clearArr.addEventListener('click', function(){ // тут просто по нажатию кнопки приравниваем arr к пустому массиву, что бы удалить из него все значения
+        arr =[];
+        console.log(arr)
+    document.getElementById("p2").innerHTML = arr;
+  });
+
+
+
+  let radios = document.getElementsByName('check');//ищем все элементы с атрибутом name = 'check'
+  let btnSort = document.getElementById('btnSort');
+
+
+  
+  
+  //asc по возрвстанию
+
+  btnSort.addEventListener('click', function() {
+    
+    for (let i = 0; i < radios.length; i++) {
+
+        if (radios[i].type == "radio" && radios[i].checked) { // если у i-ого элемента из нескольких radios тип radio и он checked то назначаем условия
+          let arrNM = [...arr]// создаем новый массив чтобы сортировка не меняла arr для корректного вывода радио с   value == 'off'
+           if(radios[i].value == 'asc'){
+            
+            arrNM.sort((a, b) => a - b)
+              console.log(arrNM);
+              document.getElementById("p2").innerHTML = arrNM;
+            }
+            
+            else if (radios[i].value == 'dasc'){
+             
+              arrNM.sort((a, b) => b - a)
+               console.log(arrNM);
+               document.getElementById("p2").innerHTML = arrNM;
+            }
+            
+            else if(radios[i].value == 'off'){
+              console.log(arr);
+              document.getElementById("p2").innerHTML = arr;
+            }
+              
+              
+
+              }
+
+             }
+           
+  
+  
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>
